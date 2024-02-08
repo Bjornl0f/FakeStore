@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<app-navbar [numberOfItems]="numberOfItems" [listOfItems]="listOfItems"
+  (listOfItemsChange)="onListOfItemsChange($event)" 
+  (productsChange)="onProductsChange($event)"></app-navbar>
+<app-sort-products (selectedGroupChange)="onSelectedGroupChange($event)"
+  (selectedSortingChange)="onSelectedSortingChange($event)"
+  (categoryMapChange)="onCategoryMapChange($event)"
+  (checkedElementsChange)="onCheckedElementsChange($event)" 
+  (checkedElementsAndPriceChange)="onCheckedElementsAndPriceChange($event)" 
+  (minPriceChange)="onMinPriceChange($event)"
+  (maxPriceChange)="onMaxPriceChange($event)"
+  (minRangeChange)="onMinRangeChange($event)"
+  (maxRangeChange)="onMaxRangeChange($event)"
+  [minPrice]="minPrice" 
+  [maxPrice]="maxPrice" 
+  [minRange]="minRange"
+  [maxRange]="maxRange" 
+  [numberOfElements]="numberOfElements"></app-sort-products>
+<app-product-box (productsChange)="onProductsChange($event)"></app-product-box>
+<div class="wrapper">
+  <div class="aside"></div>
+  <div class="container" [class.expanded]="selectedGroup === 1">
+    <div *ngFor="let product of products" class="item">
+      <div class="image">
+        <img src="{{ product.image }}" alt="{{ product.title }}">
+      </div>
+      <div class="description">
+        <div class="title-rating">
+          <span>{{ product.title }}</span>
+          <div class="rating-stars">
+            <svg viewBox="0 0 1100 200" class="rating" width="64" height="20">
+              <defs>
+                <polygon id="star" points="100,0 131,66 200,76 150,128 162,200 100,166 38,200 50,128 0,76 69,66 " />
+                <clipPath id="stars">
+                  <use xlink:href="#star" />
+                  <use xlink:href="#star" x="20%" />
+                  <use xlink:href="#star" x="40%" />
+                  <use xlink:href="#star" x="60%" />
+                  <use xlink:href="#star" x="80%" />
+                </clipPath>
+              </defs>
+              <rect class="rating__background" clip-path="url(#stars)"></rect>
+              <!-- Change the width of this rect to change the rating -->
+              <rect [attr.width]="product.rating.rate * 20 - 2 + '%'" class="rating__value" clip-path="url(#stars)">
+              </rect>
+            </svg>
+            <span>({{ product.rating.count }})</span>
+          </div>
+        </div>
+        <div class="price-buy">
+          <span>
+            <span class="integer-part">${{ product.price.toString().split('.')[0] }}</span>
+            <span class="decimal-part" [class.empty]="product.price.toString().split('.')[1] === undefined"
+              [class.add]="product.price.toString().split('.')[1] !== undefined && product.price.toString().split('.')[1].toString().length === 1">.{{
+              product.price.toString().split('.')[1] }}</span>
+          </span>
+          <button class="add-item-btn" (click)="addToCart(product.id)">
+            <span>Add to cart</span>
+          </button>
+        </div>
+      </div>
+      <div class="hidden">
+        <div class="full-desc">
+          <span>{{ product.description }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

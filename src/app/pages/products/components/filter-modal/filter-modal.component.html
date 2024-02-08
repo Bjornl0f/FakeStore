@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<div class="wrapper" [class.closed]="!isModalOpen" [class.closedFR]="!isModalOpenFR">
+  <div class="container">
+    <div class="header">
+      <div class="text" (click)="closeModal(); closeModalFR(); closeFilterModal()">
+        <div class="arrow"></div>
+        <span>Filters</span>
+      </div>
+      <button class="cancel" (click)="discardAll()" [class.active]="checkedElements.length > 0 || minPrice !== minRange || maxPrice !== maxRange">Reset</button>
+    </div>
+    <div class="body">
+      <button class="category" (click)="toggleCategory()" [class.rotate-arrow]="isCategoryOpen">
+        <span>Category</span>
+        <div class="choosed">
+          <span class="selected">{{ displayCheckedElements() }}</span>
+          <div class="ctg-arrow"></div>
+        </div>
+      </button>
+      <div class="category-list" [class.active]="isCategoryOpen">
+        <div class="ctg-item" (click)="toggleCheck('men\'s clothing')">
+          <div class="check-container" [class.active]="isChecked('men\'s clothing')"></div>
+          <span>Men's clothing</span>
+        </div>
+        <div class="ctg-item" (click)="toggleCheck('women\'s clothing')">
+          <div class="check-container" [class.active]="isChecked('women\'s clothing')"></div>
+          <span>Women's clothing</span>
+        </div>
+        <div class="ctg-item" (click)="toggleCheck('jewelery')">
+          <div class="check-container" [class.active]="isChecked('jewelery')"></div>
+          <span>Jewelry</span>
+        </div>
+        <div class="ctg-item" (click)="toggleCheck('electronics')">
+          <div class="check-container" [class.active]="isChecked('electronics')"></div>
+          <span>Electronics</span>
+        </div>
+      </div>           
+      <button class="price" (click)="togglePrice()" [class.rotate-arrow]="isPriceOpen">
+        <span>Price</span>
+        <div class="choosed-price">
+          <span class="price-text" [class.active]="minPrice !== minRange || maxPrice !== maxRange">{{ minPrice }} - {{ maxPrice }}</span>
+          <div class="ctg-arrow"></div>
+        </div>
+      </button>
+      <div class="price-range" [class.active]="isPriceOpen">
+        <div class="price-input">
+          <div class="field">
+            <input type="number" class="input-min" [(ngModel)]="minPrice" (input)="updateSlider()">
+          </div>
+          <div class="separator">-</div>
+          <div class="field">
+            <input type="number" class="input-max" [(ngModel)]="maxPrice" (input)="updateSlider()">
+          </div>
+        </div>
+        <div class="slider">
+          <div class="progress"></div>
+        </div>
+        <div class="range-input">
+          <input type="range" class="range-min" min="0" [max]="maxRange" [(ngModel)]="minPrice" (input)="updateSlider()">
+          <input type="range" class="range-max" min="0" [max]="maxRange" [(ngModel)]="maxPrice" (input)="updateSlider()">
+        </div>
+      </div> 
+    </div>
+    <div class="footer">
+      <span>Found {{ numberOfElements }} items</span>
+      <button class="show" [disabled]="numberOfElements === 0" (click)="updateFilters(); closeModal(); closeFilterModal()">Show</button>
+    </div>
+  </div>
+</div>

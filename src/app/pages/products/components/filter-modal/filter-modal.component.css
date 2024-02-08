@@ -1,0 +1,342 @@
+.wrapper {
+  background-color: rgb(0, 0, 0, 0.7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  z-index: 9;
+}
+
+.wrapper.closed > .container {
+  left: 0;
+  -webkit-animation: slideBack 0.5s backwards;
+  animation: slideBack 0.5s backwards;
+}
+
+@-webkit-keyframes slideBack {
+  100% { left: -40%; }
+}
+
+@keyframes slideBack {
+  100% { left: -40%; }
+}
+
+.wrapper.closedFR {
+  display: none;
+}
+
+.container {
+  width: 40%;
+  height: 100%;
+  background-color: white;
+  z-index: 4;
+  transition: all 0.5s;
+  position: relative;
+  left: -40%;
+  -webkit-animation: slide 0.5s forwards;
+  animation: slide 0.5s forwards;
+}
+
+@-webkit-keyframes slide {
+  100% { left: 0; }
+}
+
+@keyframes slide {
+  100% { left: 0; }
+}
+
+.header {
+  width: inherit;
+  height: 4.09rem;
+  background-color: rgb(255, 255, 255);
+  position: fixed;
+  border-bottom: 1px solid rgb(224, 224, 224);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.text {
+  display: flex;
+  justify-self: space-between;
+  align-items: center;
+  gap: 1rem;
+  font-size: 20px;;
+}
+
+.cancel {
+  width: 5rem;
+  height: 1.5rem;
+  border: 1px solid rgb(224, 224, 224);
+  border-radius: 5px;
+  background-color: rgb(238, 0, 0);
+  color: white;
+  display: none;
+  position: relative;
+  top: 2%;
+}
+
+.cancel:hover {
+  background-color: rgb(255, 0, 0);
+}
+
+.arrow, .ctg-arrow, .ctg-clth-arrow {
+  width: 6px;
+  height: 6px;
+  border-top: 2px solid #304397;
+  border-right: 2px solid #304397;
+  transform: rotate(225deg);
+  transition: all .2s;
+  position: relative;
+}
+
+.text:hover > span {
+  color: #4c6aef;
+}
+
+.text:hover > .arrow {
+  border-top: 2px solid #4c6aef;
+  border-right: 2px solid #4c6aef;
+}
+
+.body {
+  position: relative;
+  top: 8.5%;
+}
+
+.ctg-arrow {
+  transform: rotate(135deg);
+}
+
+.category, .price {
+  width: 100%;
+  height: 3.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  border-bottom: 1px solid rgb(224, 224, 224);
+  padding: 0 20px;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+.choosed, .choosed-price {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  font-size: 12px;
+}
+
+.category-list {
+  display: none;
+}
+
+.category-list.active {
+  display: block;
+}
+
+.category-list {
+  padding: 5px 30px;
+  display: none;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+/* Define the container for the check sign */
+.check-container {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  border: 1px solid rgb(199, 199, 199); /* Add a border for better visibility */
+  border-radius: 3px;
+  transition: .3s;
+}
+
+/* Create the check sign using ::before pseudo-element */
+.check-container::before {
+  content: '';
+  position: absolute;
+  top: 45%;
+  left: 30%;
+  width: 2px;
+  height: 7px;
+  border-style: solid;
+  border-width: 0 2px 2px 0;
+  transform: translateY(-50%) rotate(45deg);
+  border-color: #000; /* Match the border color */
+  display: none;
+}
+
+.check-container.active::before {
+  display: block;
+}
+
+.ctg-item {
+  border-radius: 5px;
+}
+
+.ctg-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 10px;
+}
+
+.ctg-item:hover {
+  background-color: rgb(241, 241, 241);
+}
+
+.ctg-item:hover > .check-container {
+  border-color: #000;
+  transition: .3s;
+}
+
+.price-text {
+  display: none;
+}
+
+.price-range.active, .price-text.active, .cancel.active {
+  display: block;
+}
+
+.price-range {
+  width: inherit;
+  display: none;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.price-input{
+  width: 100%;
+  display: flex;
+  margin: 20px 0 35px;
+}
+
+.price-input .field{
+  display: flex;
+  width: 100%;
+  height: 35px;
+  align-items: center;
+}
+
+.field input{
+  width: 100%;
+  height: 100%;
+  outline: none;
+  font-size: 14px;
+  margin-left: 12px;
+  margin-right: 12px;
+  border-radius: 5px;
+  text-align: center;
+  border: 1px solid #999;
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.price-input .separator{
+  width: 10px;
+  display: flex;
+  font-size: 19px;
+  align-items: center;
+  justify-content: center;
+}
+
+.slider{
+  height: 5px;
+  position: relative;
+  background: #ddd;
+  border-radius: 5px;
+}
+
+.slider .progress{
+  height: 100%;
+  left: 0%;
+  right: 0%;
+  position: absolute;
+  border-radius: 5px;
+  background: #4c6aef;
+}
+
+.range-input{
+  position: relative;
+}
+
+.range-input input{
+  position: absolute;
+  width: 100%;
+  height: 5px;
+  top: -5px;
+  background: none;
+  pointer-events: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb{
+  height: 17px;
+  width: 17px;
+  border-radius: 50%;
+  background: #4c6aef;
+  pointer-events: auto;
+  -webkit-appearance: none;
+  box-shadow: 0 0 6px rgba(0,0,0,0.05);
+}
+input[type="range"]::-moz-range-thumb{
+  height: 17px;
+  width: 17px;
+  border: none;
+  border-radius: 50%;
+  background: #4c6aef;
+  pointer-events: auto;
+  -moz-appearance: none;
+  box-shadow: 0 0 6px rgba(0,0,0,0.05);
+}
+
+.footer {
+  width: inherit;
+  height: 7rem;
+  position: fixed;
+  bottom: 1rem;
+  border-top: 1px solid rgb(224, 224, 224);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.show {
+  width: 100%;
+  height: 2.4rem;
+  border: 1px solid rgb(224, 224, 224);
+  border-radius: 5px;
+  background-color: #1837c0;
+  color: white;
+  font-size: 15px;
+}
+
+.footer span {
+  color: rgb(131, 131, 131);
+  font-size: 15px;
+}
+
+.show:hover {
+  /*background-color: #304397;*/
+  opacity: 0.88;
+}
+
+.show:disabled {
+  background-color: #8e8e8e;
+}

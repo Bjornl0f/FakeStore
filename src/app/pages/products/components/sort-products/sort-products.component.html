@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<div class="container" [class.filter]="isFilterToggle">
+  <div class="inside">
+    <button class="filters" (click)="toggleFilter()">
+      <svg width="16" height="16" viewBox="-0.5 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#">
+        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+        <g id="SVGRepo_iconCarrier">
+          <path
+            d="M22 3.58002H2C1.99912 5.28492 2.43416 6.96173 3.26376 8.45117C4.09337 9.94062 5.29 11.1932 6.73999 12.09C7.44033 12.5379 8.01525 13.1565 8.41062 13.8877C8.80598 14.6189 9.00879 15.4388 9 16.27V21.54L15 20.54V16.25C14.9912 15.4188 15.194 14.599 15.5894 13.8677C15.9847 13.1365 16.5597 12.5178 17.26 12.07C18.7071 11.175 19.9019 9.92554 20.7314 8.43988C21.5608 6.95422 21.9975 5.28153 22 3.58002Z"
+            stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        </g>
+      </svg>
+      <span>Filters</span>
+    </button>
+    <app-filter-modal *ngIf="isFilterToggle" (closedModal)="toggleFilter()" 
+      [categoryMap]="categoryMap" [checkedElements]="checkedElements" 
+      [minPrice]="minPrice" [maxPrice]="maxPrice" 
+      [minRange]="minRange" [maxRange]="maxRange"
+      (categoryMapChange)="onCategoryMapChange($event)"
+      (checkedElementsChange)="onCheckedElementsChange($event)" 
+      (checkedElementsAndPriceChange)="onCheckedElementsAndPriceChange($event)" 
+      (minPriceChange)="onMinPriceChange($event)" 
+      (maxPriceChange)="onMaxPriceChange($event)" 
+      (minRangeChange)="onMinRangeChange($event)" 
+      (maxRangeChange)="onMaxRangeChange($event)" 
+      (updateFiltersEvent)="updateFilters()" 
+      [numberOfElements]="numberOfElements"></app-filter-modal>
+    <div class="ctg-wrapper">
+      <div class="categories">
+        <button class="category" (click)="toggleCategory()">
+          <span>Category</span>
+          <div class="choosed" [class.rotate-arrow]="isCategoryOpen">
+            <span class="selected">{{ displayCheckedElements() }}</span>
+            <div class="ctg-arrow"></div>
+          </div>
+        </button>
+        <div class="category-list" [class.active]="isCategoryOpen">
+          <div class="ctg-item" (click)="toggleCheck('men\'s clothing')">
+            <div class="check-container" [class.active]="isChecked('men\'s clothing')"></div>
+            <span>Men's clothing</span>
+          </div>
+          <div class="ctg-item" (click)="toggleCheck('women\'s clothing')">
+            <div class="check-container" [class.active]="isChecked('women\'s clothing')"></div>
+            <span>Women's clothing</span>
+          </div>
+          <div class="ctg-item" (click)="toggleCheck('jewelery')">
+            <div class="check-container" [class.active]="isChecked('jewelery')"></div>
+            <span>Jewelery</span>
+          </div>
+          <div class="ctg-item" (click)="toggleCheck('electronics')">
+            <div class="check-container" [class.active]="isChecked('electronics')"></div>
+            <span>Electronics</span>
+          </div>
+        </div>
+        <button class="price" (click)="togglePrice()">
+          <span>Price</span>
+          <div class="choosed-price"  [class.rotate-arrow]="isPriceOpen">
+            <span class="price-text" [class.active]="minPrice !== minRange || maxPrice !== maxRange">{{ minPrice }} - {{ maxPrice }}</span>
+            <div class="ctg-arrow"></div>
+          </div>
+        </button>
+        <div class="price-range" [class.active]="isPriceOpen">
+          <div class="price-input">
+            <div class="field">
+              <input type="number" class="input-min" [(ngModel)]="minPrice" (input)="updateSlider()">
+            </div>
+            <div class="separator">-</div>
+            <div class="field">
+              <input type="number" class="input-max" [(ngModel)]="maxPrice" (input)="updateSlider()">
+            </div>
+          </div>
+          <div class="slider">
+            <div class="progress"></div>
+          </div>
+          <div class="range-input">
+            <input type="range" class="range-min" min="0" [max]="maxRange" [(ngModel)]="minPrice"
+              (input)="updateSlider()">
+            <input type="range" class="range-max" min="0" [max]="maxRange" [(ngModel)]="maxPrice"
+              (input)="updateSlider()">
+          </div>
+        </div>
+        <div class="footer">
+          <span>Found {{ numberOfElements }} items</span>
+          <div class="change-btns">
+            <button class="cancel" (click)="discardAll()" [class.active]="checkedElements.length > 0 || minPrice !== minRange || maxPrice !== maxRange">Reset</button>
+            <button class="show" [disabled]="numberOfElements === 0" (click)="updateFilters()">Show</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="sort-group">
+      <div class="sortings">
+        <button class="sort-btn" (click)="toggleDropdown()">
+          <span class="selected-item">{{ selectedSorting }}</span>
+          <div class="arrow-down"></div>
+        </button>
+        <div class="sort-list" [class.open]="isDropdownOpen">
+          <div class="item" (click)="selectSorting('Alphabetical')"
+            [class.selected]="selectedSorting === 'Alphabetical'">Alphabetical</div>
+          <div class="item" (click)="selectSorting('Most Popular')"
+            [class.selected]="selectedSorting === 'Most Popular'">Most Popular</div>
+          <div class="item" (click)="selectSorting('Price: Low -- High')"
+            [class.selected]="selectedSorting === 'Price: Low -- High'">Price: Low -- High</div>
+          <div class="item" (click)="selectSorting('Price: High -- Low')"
+            [class.selected]="selectedSorting === 'Price: High -- Low'">Price: High -- Low</div>
+        </div>
+      </div>
+      <div class="table-view">
+        <button class="big-table" (click)="selectGrouping(0)" [class.selected]="selectedGroup === 0">
+          <svg class="dots9" width="16" height="16" fill="#304397">
+            <use _ngcontent-rz-client-c3275067865="" xlink:href="#icon-view-less">
+              <symbol viewBox="0 0 16 16" id="icon-view-less">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M0 2C0 0.895416 0.895508 0 2 0C3.10449 0 4 0.895416 4 2C4 3.10458 3.10449 4 2 4C0.895508 4 0 3.10458 0 2ZM6 2C6 0.895416 6.89551 0 8 0C9.10449 0 10 0.895416 10 2C10 3.10458 9.10449 4 8 4C6.89551 4 6 3.10458 6 2ZM14 0C12.8955 0 12 0.895416 12 2C12 3.10458 12.8955 4 14 4C15.1045 4 16 3.10458 16 2C16 0.895416 15.1045 0 14 0ZM0 8C0 6.89542 0.895508 6 2 6C3.10449 6 4 6.89542 4 8C4 9.10458 3.10449 10 2 10C0.895508 10 0 9.10458 0 8ZM8 6C6.89551 6 6 6.89542 6 8C6 9.10458 6.89551 10 8 10C9.10449 10 10 9.10458 10 8C10 6.89542 9.10449 6 8 6ZM12 8C12 6.89542 12.8955 6 14 6C15.1045 6 16 6.89542 16 8C16 9.10458 15.1045 10 14 10C12.8955 10 12 9.10458 12 8ZM2 12C0.895508 12 0 12.8954 0 14C0 15.1046 0.895508 16 2 16C3.10449 16 4 15.1046 4 14C4 12.8954 3.10449 12 2 12ZM6 14C6 12.8954 6.89551 12 8 12C9.10449 12 10 12.8954 10 14C10 15.1046 9.10449 16 8 16C6.89551 16 6 15.1046 6 14ZM14 12C12.8955 12 12 12.8954 12 14C12 15.1046 12.8955 16 14 16C15.1045 16 16 15.1046 16 14C16 12.8954 15.1045 12 14 12Z">
+                </path>
+              </symbol>
+            </use>
+          </svg>
+        </button>
+        <button class="small-table" (click)="selectGrouping(1)" [class.selected]="selectedGroup === 1">
+          <svg class="dots12" width="16" height="16" aria-hidden="true" fill="#304397">
+            <use _ngcontent-rz-client-c3275067865="" xlink:href="#icon-view-more">
+              <symbol viewBox="0 0 15 15" id="icon-view-more">
+                <g>
+                  <circle cx="1.5" cy="1.5" r="1.5"></circle>
+                  <circle cx="1.5" cy="5.5" r="1.5"></circle>
+                  <circle cx="1.5" cy="9.5" r="1.5"></circle>
+                  <circle cx="5.5" cy="9.5" r="1.5"></circle>
+                  <circle cx="9.5" cy="9.5" r="1.5"></circle>
+                  <circle cx="13.5" cy="9.5" r="1.5"></circle>
+                  <circle cx="13.5" cy="13.5" r="1.5"></circle>
+                  <circle cx="9.5" cy="13.5" r="1.5"></circle>
+                  <circle cx="5.5" cy="13.5" r="1.5"></circle>
+                  <circle cx="1.5" cy="13.5" r="1.5"></circle>
+                  <circle cx="5.5" cy="1.5" r="1.5"></circle>
+                  <circle cx="5.5" cy="5.5" r="1.5"></circle>
+                  <circle cx="9.5" cy="5.5" r="1.5"></circle>
+                  <circle cx="13.5" cy="5.5" r="1.5"></circle>
+                  <circle cx="9.5" cy="1.5" r="1.5"></circle>
+                  <circle cx="13.5" cy="1.5" r="1.5"></circle>
+                </g>
+              </symbol>
+            </use>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,250 @@
+.container {
+  background-color: rgb(0, 0, 0, 0.7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+}
+
+.cart-menu {
+  width: 80%;
+  height: 80%;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  padding: 0 20px;
+  overflow: auto;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.cart-header, .cart-body, .cart-footer {
+  width: inherit;
+  box-sizing: border-box;
+  margin-left: -1.25rem;
+  padding: 0px 20px;
+}
+
+.cart-header {
+  height: 11%;
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgb(222, 222, 222);
+  z-index: 3;
+  background-color: white;
+}
+
+.cart-text {
+  font-weight: 600;
+  font-size: 20px
+}
+
+.close:hover {
+  fill: red;
+  stroke: red;
+}
+
+.cart-body {
+  margin: 0 0;
+  width: 100%;
+  height: 75%;
+  position: relative;
+  top: 11.5%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 20px 0;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.item {
+  width: inherit;
+  height: 8rem;
+  border: 1px solid #8a8a8a8a;
+  border-radius: 5px;
+  box-sizing: border-box;
+  display: flex;
+  flex-shrink: 0;
+}
+
+.image {
+  width: 30%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image img {
+  width: 80%;
+  height: 80%;
+  object-fit: scale-down;
+}
+
+.description {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  box-sizing: border-box;
+  font-size: 14px;
+  font-kerning: none;
+}
+
+.integer-part {
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.decimal-part {
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.decimal-part.empty:after {
+  content: "00";
+}
+
+.decimal-part.add:after {
+  content: "0";
+}
+
+.amount-delete {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: end;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+svg:hover path {
+  stroke: red;
+}
+
+.amount {
+  width: 5rem;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid;
+  border-radius: 10px;
+  font-size: 13px;
+  align-items: center;
+  font-weight: 600;
+  padding: 0 4px;
+  box-sizing: border-box;
+  background-color: #ced6fa;
+}
+
+.decrement, .increment {
+  background-color: transparent;
+  border: none;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.body-text {
+  width: inherit;
+  height: 100%;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.body-text.inactive, .total-price.inactive {
+  display: none;
+}
+
+.cart-footer {
+  border-top: 1px solid rgb(222, 222, 222);
+  height: 12%;
+  position: fixed;
+  bottom: 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 3;
+  background-color: white;
+}
+
+.continue, .finish {
+  font-weight: 600;
+  border: 1px solid rgb(222, 222, 222);
+  height: 2rem;
+  background-color: transparent;
+  border-radius: 50px;
+  box-shadow: 3px 3px 3px black;
+  padding: 0px 15px;
+}
+
+.continue:hover {
+  background-color: #ebebeb;
+}
+
+.continue:active, .finish:active {
+  scale: 0.98;
+}
+
+.total-price {
+  width: 50%;
+  height: 75%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #304397;
+  background-color: #ced6fa;
+  border-radius: 10px;
+  padding: 0px 20px;
+}
+
+.price {
+  font-weight: 600;
+}
+
+.decimal-part-total {
+  font-size: 12px;
+}
+
+.finish {
+  background-color: #304397;
+  color: white;
+}
+
+.finish:hover {
+  background-color: #142988;
+}
+
+@media (max-width: 750px) {
+  .continue {
+    display: none;
+  }
+
+  .total-price {
+    width: 100%;
+    padding: 0px 30px;
+  }
+}
+
+.cart-body.empty {
+  background-image: url('../../../assets/empty_cart.PNG');
+  background-size: contain;
+  padding: 0 0;
+}
+
+.cart-body.empty > .body-text {
+  backdrop-filter: blur(4px);
+}
